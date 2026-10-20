@@ -89,7 +89,7 @@ data$HORA <- as.hms(data$HORA)
 4.  Almacenar con `save` en una carpeta con nombre results dentro de la carpeta data.
 
 ```{r}
-savedir <- './results/'
+savedir <- './data/results/'
 filename <- 'seccion2.1_DFP1.RData'
 if (!file.exists(savedir)) dir.create(savedir)
 save(data, file=paste0(savedir, filename))
@@ -126,3 +126,65 @@ summary(data)
 # 3. Fichero *Transactions from a Bakery* (Kaggle)
 
 ## Importación del fichero
+
+Una vez hemos descargado el fichero Bakery Sales Dataset podríamos leerlo con read.csv y transformar los datos a los tipos correctos.
+
+Otra opción es usar la librería readr para especificar directamente el tipo de datos.
+
+1.  Utiliza *Import Dataset* de RStudio, opción *readr*, para previsualizar el fichero y especificar los tipos de datos.
+
+![](images/clipboard-848449043.png)
+
+2.  Copia el código resultante y comprueba la lectura de datos.
+
+```{r}
+library(readr)
+bakery_sales_revised <- read_csv("data/bakery/bakery_sales_revised.csv", 
+                                 col_types = cols(date_time = col_datetime(format = "%m/%d/%Y %H:%M")))
+View(bakery_sales_revised)
+```
+
+Por alguna razón, el formato en `data/bakery/bakery_sales_revised.csv` es `"%d/%m/%Y %H:%M"`, y, sin embargo, no funciona. Sólo funciona al poner `"%m/%d/%Y %H:%M"`.
+
+3.  Guarda el data frame con `save` en la carpeta results.
+
+```{r}
+filename <- 'bakery_sales_revised.RData'
+save(bakery_sales_revised, file=paste0(savedir,filename))
+```
+
+## Inspección de los datos
+
+1.  Inspecciona los datos con `str`, `head`, `tail` y `summary`.
+
+```{r}
+str(bakery_sales_revised)
+head(bakery_sales_revised)
+tail(bakery_sales_revised)
+summary(bakery_sales_revised)
+```
+
+# 4. Fichero SPSS *PsychBike.sav*
+
+## Importación del fichero
+
+Podemos leer ficheros de IBM SPSS mediante la librería `haven`.
+
+1.  Leer el fichero con `read_sav`.
+
+```{r}
+#install.packages('haven')
+library(haven)
+
+filename <- "data/PsychBike.sav"
+data_sec4 <- read_sav(filename)
+```
+
+2.  Inspección de los datos
+
+```{r}
+str(data_sec4)
+head(data_sec4)
+tail(data_sec4)
+summary(data_sec4)
+```
