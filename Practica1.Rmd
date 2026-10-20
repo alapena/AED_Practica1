@@ -56,12 +56,12 @@ language:
 Nada que hacer aquí, son instrucciones de cómo presentar la memoria.
 
 # 2. Ejemplo: fichero
+
 *DFP1_11122015 124700.csv*
 
 ## Importación del fichero
 
-1.  Usar la herramienta de importación para previsualizar el resultado
-    final. Compara las opciones *base* y *readr*.
+1.  Usar la herramienta de importación para previsualizar el resultado final. Compara las opciones *base* y *readr*.
 
 El paquete base, a priori, reconoce que el separador son tabs. Por lo tanto importa los datos correctamente. En cambio, readr, como opción *default* solo reconoce las comas como separadores, por lo que importa los datos a un dataframe con una sola columna.
 
@@ -69,8 +69,7 @@ No obstante, esto se puede configurar en el asistente para que utilice los tabs 
 
 A parte de eso, base sustituye los espacios por puntos, mientras que readr no. Aquí no hay espacios por lo que esto realmente no importa en este caso específico.
 
-2.  Leer el fichero con `read.csv` y el parámetro
-    `stringsAsFactors=F`.
+2.  Leer el fichero con `read.csv` y el parámetro `stringsAsFactors=F`.
 
 ```{r}
 fname <- 'data/DFP1_11122015 124700.csv'
@@ -356,5 +355,3 @@ write_file(data_sec8_3, filename)
 Exactamente el mismo resultado! (RStudio muestra todo como si estuviera en la misma línea, pero mi lector KWrite lo muestra mejor) e.g.
 
 ![](images/clipboard-2616588652.png)
-
-# 9. Fichero ERCA.xlsx
