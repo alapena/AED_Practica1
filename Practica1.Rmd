@@ -1,0 +1,128 @@
+---
+title: "Pon un título a tu documento"
+author: "Pon aquí tu nombre y apellidos"
+date: "`r Sys.Date()`"
+output:
+  bookdown::pdf_document2:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    figure_caption: "Figura" # Referencias en castellano
+    table_caption: "Tabla"
+  html_document:
+    echo: true
+    number_sections: true
+    theme: lumen
+    toc: true
+  html_notebook:
+    echo: true
+    number_sections: true
+    toc: true
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+  bookdown::html_document2:
+    echo: true
+    number_sections: true
+    theme: spacelab
+    toc: true
+    figure_caption: "Figura"
+    table_caption: "Tabla"
+always_allow_html: true
+params:
+  lang: ES
+lang: "`r switch(params$lang, ES = 'es-ES', EN = 'en-US')`"
+subtitle: "Introducción a la Ciencia de Datos. Máster en Ciencia de Datos- UV"
+language:
+  label:
+    fig: 'Figura '
+    tab: 'Tabla '
+    eq: 'Ecuación '
+    thm: 'Teorema '
+    lem: 'Lema '
+    def: 'Definición '
+    cor: 'Corolario '
+    prp: 'Proposición '
+    exm: 'Ejemplo '
+    exr: 'Ejercicio '
+    proof: 'Demostración. '
+    remark: 'Nota: '
+    solution: 'Solución. '
+---
+
+# 1. Introducción
+
+Nada que hacer aquí, son instrucciones de cómo presentar la memoria.
+
+# 2. Ejemplo: fichero
+*DFP1_11122015 124700.csv*
+
+## Importación del fichero
+
+1.  Usar la herramienta de importación para previsualizar el resultado
+    final. Compara las opciones *base* y *readr*.
+
+El paquete base, a priori, reconoce que el separador son tabs. Por lo tanto importa los datos correctamente. En cambio, readr, como opción *default* solo reconoce las comas como separadores, por lo que importa los datos a un dataframe con una sola columna.
+
+No obstante, esto se puede configurar en el asistente para que utilice los tabs como separador y obtener así exactamente la misma tabla.
+
+A parte de eso, base sustituye los espacios por puntos, mientras que readr no. Aquí no hay espacios por lo que esto realmente no importa en este caso específico.
+
+2.  Leer el fichero con `read.csv` y el parámetro
+    `stringsAsFactors=F`.
+
+```{r}
+fname <- 'data/DFP1_11122015 124700.csv'
+data <- read.csv(fname, stringsAsFactors = F, sep = "\t")
+```
+
+3.  Convertir fecha y hora con as.POSIXlt y as.hms (hms library).
+
+```{r}
+data$FECHA <- as.POSIXlt(data$FECHA, format = "%d/%m/%Y")
+
+library(hms)
+data$HORA <- as.hms(data$HORA)
+```
+
+4.  Almacenar con `save` en una carpeta con nombre results dentro de la carpeta data.
+
+```{r}
+savedir <- './results/'
+filename <- 'seccion2.1_DFP1.RData'
+if (!file.exists(savedir)) dir.create(savedir)
+save(data, file=paste0(savedir, filename))
+```
+
+## Inspección de datos
+
+Inspecciona los datos con str, head, tail y summary. Describid que informacion os proporciona cada uno de ellos.
+
+```{r}
+str(data)
+```
+
+`str` nos da una vista rápida y básica de los nombres de las columnas, la cantidad de filas y columnas, los tipos de cada columna y una overview rápida de sus primeros contenidos.
+
+```{r}
+head(data)
+```
+
+`data` nos muestra las primeras 6 filas.
+
+```{r}
+tail(data)
+```
+
+`tail` nos muestra las últimas 6 filas.
+
+```{r}
+summary(data)
+```
+
+`summary` nos muestra los estadísticos básicos para cada columna: mínimo, máximo, cuantiles, mediana y media.
+
+# 3. Fichero *Transactions from a Bakery* (Kaggle)
+
+## Importación del fichero
