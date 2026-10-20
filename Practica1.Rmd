@@ -208,3 +208,153 @@ unzip(pathfile, exdir=savedir)
 ```
 
 # 6. Fichero data *iris.data*
+
+## Importación del fichero
+
+1.  Utiliza la funcion `read_table` para importar los datos.
+
+```{r}
+savedir <- './data/iris/'
+filename <- 'iris.data'
+data_sec6 <- read.table(paste0(savedir,filename), sep = ",")
+```
+
+2.  Cambia el nombre de las columnas por las que corresponda a la base datos (mirar la información en la página web).
+
+```{r}
+names(data_sec6) <- c('sepal_length', 'sepal_width', 'petal_width', 'petal_width', 'class')
+data_sec6
+```
+
+3.  Guarda el data frame con `save` en la carpeta results.
+
+```{r}
+save(data_sec6, file='./data/results/iris.RData')
+```
+
+## Inspección de los datos
+
+```{r}
+str(data_sec6)
+head(data_sec6)
+tail(data_sec6)
+summary(data_sec6)
+```
+
+# 7. Fichero JSON *FileCodificado.json*
+
+## Importación del fichero
+
+Los ficheros JSON (JavaScript Object Notation) son ficheros de texto que contienen datos (originalmente presentaciones de objetos JavaScript). Es un formato muy popular que se utiliza frecuentemente como alternativa a los ficheros XML, puesto que son más fáciles de leer e interpretar.
+
+En R podemos importar ficheros JSON con la librería jsonlite. Las funciones más empleadas son:
+
+- `read_json` y `write_json`: leen/escriben objetos R directamente de/en ficheros JSON.
+
+- `toJSON`: obtiene una representación JSON de un objeto R.
+
+- `fromJSON`: inversa de la anterior, convierte una representación JSON en un objeto R.
+
+## Importar el fichero `FileCodificado.json`
+
+1.  Abrir el fichero FileCodificado.json con un editor de texto (el de RStudio vale) para ver qué contiene. Comprobaremos que se puede leer e interepretar con facilidad.
+
+![](images/clipboard-3031519708.png)
+
+2.  Importar el fichero a R con read_json. Observar la importancia del parámetro simplifyVector.
+
+```{r}
+library(jsonlite)
+pathfile <- './data/FileCodificado.json'
+data_sec7 <- read_json(pathfile, simplifyVector = T)
+```
+
+con `simplifyVector = T`, obtenemos algo muy poco humanamente legible:
+
+![](images/clipboard-588477216.png)
+
+Sin embargo, al activarlo `True`, obtenemos algo mucho más interpretable:
+
+![](images/clipboard-3035423543.png)
+
+3.  Almacenar los resultados en `FileCodificado.RData` en la carpeta results.
+
+```{r}
+save(data_sec7, file='./data/results/FileCodificado.RData')
+```
+
+## Inspección de los datos
+
+```{r}
+str(data_sec7)
+head(data_sec7)
+tail(data_sec7)
+summary(data_sec7)
+```
+
+# 8. Fichero JSON *iris_json.json*
+
+## Importar el fichero `iris_json.json`
+
+1.  Abrir el fichero iris_json.json con un editor de texto (el de RStudio vale) para ver qué contiene. Comprobaremos que se puede leer e interepretar con facilidad.
+
+![](images/clipboard-3026051999.png)
+
+2.  Importar el fichero a R con read_json.
+
+```{r}
+filename <- ("./data/iris_json.json")
+data_sec8 <- read_json(filename)
+```
+
+3.  Importa el fichero a R con fromJSON. ¿Que diferencia hay entre read_json y fromJSON?
+
+```{r}
+data_sec8_2 <- fromJSON(filename)
+```
+
+Por defecto, read_json() importa de forma poco interpretable, tal y como hemos visto en la sección anterior. En cambio, fromJSON importa perfectamente los datos. No obstante, si activamos `simplifyVector = T`, ambas funciones funcionan igual de bien.
+
+4.  Almacenar los resultados en `iris_json.RData` en results.
+
+```{r}
+filename <- ("./data/results/iris.Rdata")
+save(data_sec8_2, file=filename)
+```
+
+## Inspección de los datos
+
+```{r}
+str(data_sec8_2)
+head(data_sec8_2)
+tail(data_sec8_2)
+summary(data_sec8_2)
+```
+
+## Exportar datos en formato JSON
+
+1.  Lee los datos iris almacendos previamente en iris.Rdata y guardalos en json usando write_json. Abrir el fichero con RStudio y comprobar el resultado.
+
+```{r}
+filename <- "./data/results/iris.Rdata"
+load(filename)
+write_json(data_sec8_2, './data/results/iris.json')
+```
+
+![](images/clipboard-47093786.png)
+
+2.  Como alternativa, obtener la representación JSON de los datos con toJSON y luego almacenarlos con write_file. Observar la diferencia de usar o no el parámetro pretty en toJSON.
+
+```{r}
+data_sec8_3 <- toJSON(data_sec8_2)
+filename <- 'data/results/iris_json_v2.json'
+write_file(data_sec8_3, filename)
+```
+
+![](images/clipboard-1411667180.png)
+
+Exactamente el mismo resultado! (RStudio muestra todo como si estuviera en la misma línea, pero mi lector KWrite lo muestra mejor) e.g.
+
+![](images/clipboard-2616588652.png)
+
+# 9. Fichero ERCA.xlsx
