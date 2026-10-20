@@ -188,3 +188,23 @@ head(data_sec4)
 tail(data_sec4)
 summary(data_sec4)
 ```
+
+# 5. Fichero data *iris.zip*
+
+Visualiza la pagina web de los datos [Iris del repostorio de UCI Machine Learning](https://archive.ics.uci.edu/dataset/53/iris), copia el link de descarga y guarda el archivo zip en la carpeta data.
+
+## Descomprimir el fichero
+
+1.  Utiliza la funcion `unzip` para descoprimirlo en la carpeta data.
+
+```{r}
+URL <- 'https://archive.ics.uci.edu/static/public/53/iris.zip'
+pathfile <- './data/iris.zip'
+download.file(url=URL, destfile=pathfile)
+
+savedir <- './data/iris'
+if (!file.exists(savedir)) dir.create(savedir)
+unzip(pathfile, exdir=savedir)
+```
+
+# 6. Fichero data *iris.data*
